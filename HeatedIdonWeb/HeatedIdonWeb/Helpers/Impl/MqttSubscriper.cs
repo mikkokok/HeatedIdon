@@ -62,19 +62,23 @@ namespace HeatedIdonWeb.Helpers.Impl
             await mqttClient.SubscribeAsync(topicFilter);
         }
 
-        private static void HandleMessage(MqttApplicationMessage applicationMessage)
+        private void HandleMessage(MqttApplicationMessage applicationMessage)
         {
             var message = applicationMessage;
             var payload = Encoding.UTF8.GetString(message.Payload);
             var deSerializerOptions = new JsonSerializerOptions();
             deSerializerOptions.Converters.Add(new DoubleFromJsonConverter());
             var data = JsonSerializer.Deserialize<SensorData>(payload, deSerializerOptions);
+            Task.Run(async () =>
+            {
+                await _falconConsumer.sendSensorData(data);
+            });
         }
 
         private static void HandleDisconnect(MqttClientAuthenticateResult mqttClientAuthenticateResult)
         {
-            var testi = mqttClientAuthenticateResult;
-
+            var result = mqttClientAuthenticateResult;
+            Console.WriteLine(result.ReasonString);
         }
     }
 }
