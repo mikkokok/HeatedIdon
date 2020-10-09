@@ -71,7 +71,7 @@ namespace HeatedIdonWeb.Helpers.Impl
             var data = JsonSerializer.Deserialize<SensorData>(payload, deSerializerOptions);
             Task.Run(async () =>
             {
-                await _falconConsumer.sendSensorData(data);
+                await _falconConsumer.SendSensorData(data);
             });
         }
 

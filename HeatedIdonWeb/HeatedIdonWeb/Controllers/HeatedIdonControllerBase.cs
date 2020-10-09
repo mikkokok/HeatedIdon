@@ -20,7 +20,6 @@ namespace HeatedIdonWeb.Controllers
             _config = configuration;
             _falconConsumer = new FalconConsumer(_config);
             _mqttSubscriper = new MqttSubscriper(_config, _falconConsumer);
-            
         }
     }
 }
