@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
-namespace HeatedIdonWeb.Helpers.Impl
+namespace HeatedIdonService.Helpers.Impl
 {
     public class DoubleFromJsonConverter : JsonConverter<double>
     {
@@ -24,7 +21,7 @@ namespace HeatedIdonWeb.Helpers.Impl
 
         public override void Write(Utf8JsonWriter writer, double value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToString());
+            writer.WriteStringValue(value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

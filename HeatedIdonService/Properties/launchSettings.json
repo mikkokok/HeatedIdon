@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "HeatedIdonService": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

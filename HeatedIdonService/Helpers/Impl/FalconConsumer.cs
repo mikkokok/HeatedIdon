@@ -1,28 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Policy;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Web;
-using HeatedIdonWeb.DTO;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+using HeatedIdonService.Config;
+using HeatedIdonService.DTO;
 
-namespace HeatedIdonWeb.Helpers.Impl
+namespace HeatedIdonService.Helpers.Impl
 {
     public class FalconConsumer
     {
-        private readonly IConfiguration _config;
+        private readonly ConfigData _config;
         private string _falconUrl;
         private string _falconKey;
         private HttpClient _httpClient;
         private CertificateValidator _certificateValidator;
         
-        public FalconConsumer(IConfiguration config)
+        public FalconConsumer(ConfigData config)
         {
             _config = config;
             InitializeFalconConsumer();
@@ -30,8 +27,8 @@ namespace HeatedIdonWeb.Helpers.Impl
 
         private void InitializeFalconConsumer()
         {
-            _falconUrl = _config.GetValue<string>("RestlessFalcon:url");
-            _falconKey = _config.GetValue<string>("RestlessFalcon:key");
+            _falconUrl = _config.RestlessFalcon.url;
+            _falconKey = _config.RestlessFalcon.key;
             _certificateValidator = new CertificateValidator(_config);
             var handler = new HttpClientHandler
             {
@@ -57,7 +54,7 @@ namespace HeatedIdonWeb.Helpers.Impl
 
             using var request = new HttpRequestMessage(HttpMethod.Post, uriBuilder.Uri);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var json = JsonConvert.SerializeObject(data);
+            var json = JsonSerializer.Serialize(data);
             request.Content = new StringContent(json, Encoding.UTF8);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             try

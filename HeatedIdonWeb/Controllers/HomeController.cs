@@ -7,16 +7,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HeatedIdonWeb.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace HeatedIdonWeb.Controllers
 {
     [Authorize]
-    public class HomeController : HeatedIdonControllerBase
+    public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration) : base(configuration)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }

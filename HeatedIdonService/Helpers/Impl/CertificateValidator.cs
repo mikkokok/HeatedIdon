@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using HeatedIdonService.Config;
 
-namespace HeatedIdonWeb.Helpers.Impl
+namespace HeatedIdonService.Helpers.Impl
 {
     public class CertificateValidator
     {
-        private IConfiguration _config;
+        private ConfigData _config;
         private readonly string _trustedThumbprint;
 
-        public CertificateValidator(IConfiguration config)
+        public CertificateValidator(ConfigData config)
         {
             _config = config;
-            _trustedThumbprint = _config.GetValue<string>("RestlessFalcon:sslThumbprint");
+            _trustedThumbprint = _config.RestlessFalcon.sslThumbprint;
         }
 
         public bool ValidateCertificate(HttpRequestMessage request, X509Certificate2 certificate, X509Chain certificateChain, SslPolicyErrors policy)

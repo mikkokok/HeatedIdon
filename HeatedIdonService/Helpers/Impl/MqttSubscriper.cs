@@ -1,42 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using HeatedIdonWeb.DTO;
-using Microsoft.Extensions.Configuration;
+using HeatedIdonService.Config;
+using HeatedIdonService.DTO;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Options;
 
-namespace HeatedIdonWeb.Helpers.Impl
+namespace HeatedIdonService.Helpers.Impl
 {
     public class MqttSubscriper
     {
-        private readonly IConfiguration _config;
+        private readonly ConfigData _config;
         private string _mqttServer;
         private string _mqttUser;
         private string _mqttPassword;
         private string _mqttTopic;
-        private readonly string _clientId = "HeatedIdon";
+        private readonly string _clientId = "HeatedIdonService";
         private readonly FalconConsumer _falconConsumer;
 
-        public MqttSubscriper(IConfiguration config, FalconConsumer FalconConsumer)
+        public MqttSubscriper(ConfigData config, FalconConsumer falconConsumer)
         {
             _config = config;
-            _falconConsumer = FalconConsumer;
+            _falconConsumer = falconConsumer;
             InitializeMqttClient();
         }
 
         private async Task InitializeMqttClient()
         {
-            _mqttServer = _config.GetValue<string>("Messaging:mqttServer");
-            _mqttUser = _config.GetValue<string>("Messaging:mqttUser");
-            _mqttPassword = _config.GetValue<string>("Messaging:mqttPassword");
-            _mqttTopic = _config.GetValue<string>("Messaging:mqttTopic");
+            _mqttServer = _config.Messaging.mqttServer;
+            _mqttUser = _config.Messaging.mqttUser;
+            _mqttPassword = _config.Messaging.mqttPassword;
+            _mqttTopic = _config.Messaging.mqttTopic;
             await ConnectAsync();
         }
 
