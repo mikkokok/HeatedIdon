@@ -75,6 +75,7 @@ namespace HeatedIdonService.Helpers.Impl
 
         private static void HandleDisconnect(MqttClientAuthenticateResult mqttClientAuthenticateResult)
         {
+            Console.WriteLine("Got disconnection");
             var result = mqttClientAuthenticateResult;
             Console.WriteLine(result.ReasonString);
         }

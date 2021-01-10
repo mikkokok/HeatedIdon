@@ -8,6 +8,7 @@ namespace HeatedIdonService
         {
             var apploader = AppLoader.Instance;
             AppLoader.LoadConfig();
+            Console.WriteLine("Config loaded");
             AppLoader.StartMqttSubscription();
         }
     }
